@@ -3,7 +3,7 @@ import axios from '../../config/axios';
 import { useHistory, Link } from "react-router-dom";
 import localStorageService from "../../services/localStorageService";
 import { AuthContext } from '../../context/AuthContextProvider'
-
+import { message } from 'antd'
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -30,6 +30,7 @@ function Login() {
       console.log(res)
       localStorageService.setToken(res.data.token);
       setIsAuthenticated(true)
+      message.success("Login success", 5)
       history.push("/");
     } catch (err) {
       console.dir(err);
@@ -68,12 +69,11 @@ function Login() {
             <button type="submit" className="btn" style={{ backgroundColor: '#9FB3D3' }}>Submit</button>
           </div>
         </form>
-              
-        <div className="d-flex justify-content-center">
+        {/* <div className="d-flex justify-content-center">
           <Link to="/home">
-          <img src="https://i.kym-cdn.com/entries/icons/original/000/013/564/doge.jpg" alt="doge" style={{ marginTop: "40px" }} ></img>
+            <img src="https://i.kym-cdn.com/entries/icons/original/000/013/564/doge.jpg" alt="doge" style={{ marginTop: "40px" }} ></img>
           </Link>
-        </div>
+        </div> */}
       </div>
     </>
   );

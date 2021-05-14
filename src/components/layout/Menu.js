@@ -25,24 +25,27 @@ function MyMenu() {
       <Menu.Item key="0">
         <Link to="/profile">Profile</Link>
       </Menu.Item>
-      <Menu.Item key="1">
+      {/* <Menu.Item key="1">
         <Link to="/calendar">Calendar</Link>
-      </Menu.Item>
+      </Menu.Item> */}
       <Menu.Item key="2">
-        <Link to="/room">Room</Link>
+        <Link to="/add-booking">Add Booking</Link>
+      </Menu.Item>
+      <Menu.Item key="3">
+        <Link to="/booking-list">Booking List</Link>
       </Menu.Item>
       {user.position === 'ADMIN' && (
-        <Menu.Item key="3">
+        <Menu.Item key="4">
           <Link to="/add-user">Add User</Link>
         </Menu.Item>
       )}
-      {user.position === 'ADMIN' && (
-        <Menu.Item key="4">
+      {/* {user.position === 'ADMIN' && (
+        <Menu.Item key="5">
           <Link to="/user-list">User List</Link>
         </Menu.Item>
-      )}
+      )} */}
       <hr style={{margin: '0'}}></hr>
-      <Menu.Item key="5">
+      <Menu.Item key="6">
         <a href="/" onClick={handleLogout}>
           Sign Out
         </a>
@@ -52,7 +55,7 @@ function MyMenu() {
   return (
     <div className="d-flex">
       <Link
-        to="/"
+        to="/profile"
         style={{
           marginBottom: '0',
           paddingRight: '0.3em',

@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios'
 import Header from '../components/layout/Header'
-import { Form, Input, Select, DatePicker, InputNumber, TimePicker, Button } from 'antd';
+import { Form, Input, Select, DatePicker, InputNumber, TimePicker, Button, message } from 'antd';
 import doge2 from '../assets/images/doge2.png'
 import moment from 'moment'
 
 const { RangePicker } = TimePicker;
-// const { RangePicker } = DatePicker  ;
 
 function EditBooking() {
   const [rooms, setRooms] = useState([]);
@@ -26,9 +25,9 @@ function EditBooking() {
     }
     const getBookingListById = async () => {
       try {
-        const res = await axios.get('/booking-lists/booking/' + params.bookingId)
-        console.log(res.data.result)
-        setBookingListById(res.data.result)
+        const bookingByBookedId = await axios.get('/booking-lists/booking/' + params.bookingId)
+        console.log(bookingByBookedId.data.result)
+        setBookingListById(bookingByBookedId.data.result)
       } catch (err) {
         console.dir(err)
       }
@@ -46,9 +45,12 @@ function EditBooking() {
     if (!participantNumber || participantNumber === "") newError.participantNumber = "participant number is required"
   }
 
+  const success = () => {
+    message.success("Edit success", 5)
+  }
   const handleSubmit = async (values) => {
     console.log(values)
-    validateInput(values);
+    // validateInput(values);
     const date = values.date.format('YYYY-MM-DD')
     const startTime = values.time[0].format('HH:mm');
     const endTime = values.time[1].format('HH:mm');
@@ -60,6 +62,7 @@ function EditBooking() {
       await axios.put('/booking-lists/edit/' + params.bookingId, {
         title, room, description, participantNumber, startDateTime, endDateTime
       });
+      success();
       history.push('/profile')
     } catch (err) {
       console.dir(err)
@@ -98,7 +101,7 @@ function EditBooking() {
             {/* {error.title && <span style={{ color: 'red' }}>{error.title}</span>} */}
           </Form.Item>
           <Form.Item hasFeedback label="Room" name='room' rules={[{ required: true, message: 'Room is required' }]}>
-            <Select >
+            <Select defaultValue={bookingListById?.Room?.name}>
               {rooms.map(room => <Select.Option key={room.id} value={room.name}>{room.name} (Max: {room.capacity})</Select.Option>)}
             </Select>
           </Form.Item>
@@ -123,10 +126,10 @@ function EditBooking() {
             </Button>
           </Form.Item>
         </Form>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <img src={doge2} alt="doge2"></img>
           <img src={doge2} alt="doge2" style={{ marginRight: '0px', transform: 'rotateY(180deg)' }}></img>
-        </div>
+        </div> */}
       </>
     );
   };

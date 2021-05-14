@@ -5,6 +5,7 @@ import Auth from './pages/Auth';
 import Home from './pages/Home';
 import Calendar from './pages/Calendar';
 import Profile from './pages/Profile';
+import UserList from './pages/UserList';
 import AddUser from './pages/AddUser';
 import BookingList from './pages/BookingList';
 import AddBooking from './pages/AddBooking';
@@ -39,7 +40,11 @@ const privateRoutes = [
   {
     path: '/calendar',
     component: Calendar
-  }
+  },
+  {
+    path: '/user-list',
+    component: UserList
+  },
 ]
 const publicRoutes = [
   {

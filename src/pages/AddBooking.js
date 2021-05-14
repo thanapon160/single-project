@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
 import axios from 'axios'
-import { AuthContext } from "../context/AuthContextProvider";
 import Header from '../components/layout/Header'
-import { Form, Input, Select, DatePicker, InputNumber, TimePicker, Button } from 'antd';
+import { Form, Input, Select, DatePicker, InputNumber, TimePicker, Button, message } from 'antd';
 import doge2 from '../assets/images/doge2.png'
 
 const { RangePicker } = TimePicker;
-// const { RangePicker } = DatePicker  ;
 
 function AddBooking() {
   const [rooms, setRooms] = useState([]);
-  const [bookingLists, setBookingLists] = useState([]);
   const [error, setError] = useState('');
   const history = useHistory();
 
@@ -24,16 +21,7 @@ function AddBooking() {
         setError(err.response.data.message)
       }
     }
-    const getAllBookingList = async () => {
-      try {
-        const result = await axios.get('/getAllBookingList')
-        setBookingLists(result.data)
-      } catch (err) {
-        setError(err.response.data.message)
-      }
-    }
     getRoom();
-    getAllBookingList();
   }, [])
 
   const validateInput = (values) => {
@@ -46,6 +34,8 @@ function AddBooking() {
     setError(newError)
   }
 
+  const success = () => { message.success("Add booking success", 5) }
+
   const handleSubmit = async (values) => {
     console.log(values)
     validateInput(values);
@@ -55,13 +45,14 @@ function AddBooking() {
     const endTime = values.time[1].format('HH:mm');
 
     const { title, room, description, participantNumber } = values
-    const startDateTime = date + 'T' + startTime + ':00+07:00';
-    const endDateTime = date + 'T' + endTime + ':00+07:00';
+    const startDateTime = date + ' ' + startTime
+    const endDateTime = date + ' ' + endTime
     try {
       await axios.post('/booking-lists', {
         title, room, description, participantNumber, startDateTime, endDateTime
       });
       history.push('/profile')
+      success();
     } catch (err) {
       console.dir(err)
     }
@@ -71,10 +62,6 @@ function AddBooking() {
   const AddBookingForm = () => {
     const [componentSize, setComponentSize] = useState('default');
 
-    const validateMessages = {
-      required: '${name} is required'
-    };
-
     const onFinishFailed = (err) => {
       console.log('Failed: ', err)
     };
@@ -82,7 +69,7 @@ function AddBooking() {
     const onFormLayoutChange = ({ size }) => {
       setComponentSize(size);
     };
-    
+
     return (
       <>
         <Form
@@ -101,26 +88,25 @@ function AddBooking() {
           style={{ margin: '5rem' }}
           onFinish={handleSubmit}
           onFinishFailed={onFinishFailed}
-          validateMessages={validateMessages}
         >
-          <Form.Item  hasFeedback label="Title" name='title' 
-          rules={[
-            {required: true, message: 'Title is required'},
-            // {validator: (_, value) => value=='test' ? Promise.resolve() : Promise.reject(new Error('Holy Shit'))}
-          ]}>
+          <Form.Item hasFeedback label="Title" name='title'
+            rules={[
+              { required: true, message: 'Title is required' },
+              // {validator: (_, value) => value=='test' ? Promise.resolve() : Promise.reject(new Error('Holy Shit'))}
+            ]}>
             <Input />
             {/* {error.title && <span style={{ color: 'red' }}>{error.title}</span>} */}
           </Form.Item>
-          <Form.Item hasFeedback label="Room" name='room' rules={[{required: true, message: 'Room is required'}]}>
+          <Form.Item hasFeedback label="Room" name='room' rules={[{ required: true, message: 'Room is required' }]}>
             <Select>
               {rooms.map(room => <Select.Option key={room.id} value={room.name}>{room.name} (Max: {room.capacity})</Select.Option>)}
             </Select>
           </Form.Item>
-          <Form.Item hasFeedback label="Date" name='date' rules={[{required: true, message: 'Date is required'}]}>
+          <Form.Item hasFeedback label="Date" name='date' rules={[{ required: true, message: 'Date is required' }]}>
             <DatePicker />
           </Form.Item>
-          <Form.Item hasFeedback label="Time" name='time' rules={[{required: true, message: 'Start & End time is required'}]}>
-            <RangePicker minuteStep={15} format={'HH:mm'} autoFocus='true'/>
+          <Form.Item hasFeedback label="Time" name='time' rules={[{ required: true, message: 'Start & End time is required' }]}>
+            <RangePicker minuteStep={15} format={'HH:mm'} autoFocus='true' />
           </Form.Item>
           <Form.Item label="Participant" name='participantNumber'>
             <InputNumber min={2} max={20} />
@@ -137,23 +123,10 @@ function AddBooking() {
             </Button>
           </Form.Item>
         </Form>
-        <img src={doge2} alt="doge2"></img>
+        {/* <img src={doge2} alt="doge2"></img> */}
       </>
     );
   };
-
-  // useEffect(() => {
-  //   const getRoom = async () => {
-  //     try {
-  //       const res = await axios.get('/rooms')
-  //       console.log(res.data.roomList)
-  //       setRooms(res.data.roomList)
-  //     } catch (err) {
-  //       setError(err.response.data.message)
-  //     }
-  //   }
-  //   getRoom();
-  // }, []);
 
   return (
     <>
