@@ -52,7 +52,7 @@ function UserBookingInfo() {
           <p><strong>Date:</strong> {String(moment(item.startDateTime).format('dddd YYYY-MM-DD'))}</p>
           <p><strong>Start Time:</strong> {String(moment(item.startDateTime).format('HH:mm'))}</p>
           <p><strong>End Time:</strong> {String(moment(item.endDateTime).format('HH:mm'))}</p>
-          <img src={doge3} alt="doge3" style={{position: 'absolute', width: '200px', height: '200px', top: '-20px', right: '-20px'}}></img>
+          {/* <img src={doge3} alt="doge3" style={{position: 'absolute', width: '200px', height: '200px', top: '-20px', right: '-20px'}}></img> */}
           <button style={{ borderRadius: '20px' }} onClick={function () { history.push("/edit-booking/" + item.id) }}>Edit</button>
           <button onClick={() => {handleDelete(item.id)}} style={{ borderRadius: '20px' }}>Delete</button>
         </div>)}

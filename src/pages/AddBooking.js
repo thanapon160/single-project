@@ -54,6 +54,7 @@ function AddBooking() {
       history.push('/profile')
       success();
     } catch (err) {
+      message.error("This range of time is already booked, please select new one")
       console.dir(err)
     }
 

@@ -8,6 +8,8 @@ import '../css/menu.css'
 import profile from '../assets/images/profile.png'
 import addUser from '../assets/images/addUser.png'
 import userList from '../assets/images/userList.png'
+import addBooking from '../assets/images/addbooking.png'
+import bookingList from '../assets/images/bookinglist.png'
 
 function Home() {
   const menuStyle = {
@@ -68,7 +70,7 @@ function Home() {
             <div className="inner">
               <Link to="/add-booking">
                 <div className="front">
-                  <img alt="add-booking" src={doge} style={menuStyle} />
+                  <img alt="add-booking" src={addBooking} style={menuStyle} />
                 </div>
                 <div className="back">
                   <h1 style={title}>Add Booking</h1>
@@ -89,7 +91,7 @@ function Home() {
             <div className="inner">
               <Link to="/booking-list">
                 <div className="front">
-                  <img alt="booking-list" src={doge} style={menuStyle} />
+                  <img alt="booking-list" src={bookingList} style={menuStyle} />
                 </div>
                 <div className="back">
                   <h1 style={title}>Booking List</h1>
